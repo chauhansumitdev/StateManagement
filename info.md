@@ -17,7 +17,41 @@ theme
 etc -- globally accessable data.
 
 hooks------------------
-what? - 
 
+import React, { useState, useEffect } from 'react';
+
+const MyComponent = () => {
+  // Declare state variables using the useState hook
+  const [myState, setMyState] = useState(initialValue);
+
+  // useEffect hook for side effects (e.g., fetching data, subscriptions)
+  useEffect(() => {
+    // Your code here for side effects
+
+    // Cleanup function (optional)
+    return () => {
+      // Perform cleanup (e.g., unsubscribe from subscriptions)
+    };
+  }, [dependencies]);
+
+  // Custom hook (if you have one)
+  const customHookValue = useCustomHook();
+
+  // Your component JSX
+  return (
+    <div>
+      <p>State: {myState}</p>
+      <p>Custom Hook Value: {customHookValue}</p>
+    </div>
+  );
+};
+
+export default MyComponent;
 
 redux-----------------------
+central data store
+
+- reducers - manage the state and returns the newely updated state.
+- actions - type - identifier
+            payload - data
+- dispatch - actions to update the data

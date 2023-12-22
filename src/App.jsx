@@ -1,17 +1,44 @@
-// App.js
-import React from 'react';
-import ThemeContext, { ThemeProvider } from './ThemeContext';
-import ThemedComponent from './ThemedComponent';
+import { connect } from 'react-redux';
+import { addTodo, removeTodo } from './redux/actions';
+import Todo from './Todo';
 
-function App() {
+const App = ({ todos, addTodo, removeTodo }) => {
+  const [newTodo, setNewTodo] = useState('');
+
+  const handleAddTodo = () => {
+    if (newTodo.trim() !== '') {
+      addTodo(newTodo);
+      setNewTodo('');
+    }
+  };
+
   return (
-    <ThemeProvider>
-      <div className="App">
-        <h1>Theme Demo</h1>
-        <ThemedComponent />
+    <div>
+      <h1>Redux Todo App</h1>
+      <div>
+        <input
+          type="text"
+          value={newTodo}
+          onChange={(e) => setNewTodo(e.target.value)}
+        />
+        <button onClick={handleAddTodo}>Add Todo</button>
       </div>
-    </ThemeProvider>
+      <div>
+        {todos.map((todo) => (
+          <Todo key={todo.id} todo={todo} onRemove={removeTodo} />
+        ))}
+      </div>
+    </div>
   );
-}
+};
 
-export default App;
+const mapStateToProps = (state) => ({
+  todos: state.todos,
+});
+
+const mapDispatchToProps = {
+  addTodo,
+  removeTodo,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
